@@ -1,24 +1,38 @@
-import logo from './logo.svg';
+
 import './App.css';
+import React, {useState } from 'react';
+import Header from "./components/Layout/Header";
+import Meals from './components/Meals/Meals';
+import Cart from './components/Cart/Cart';
+import CartProvider from './store/CartProvider';
+
 
 function App() {
+  const [cartIsShown, setCartIsShown]= useState(false);
+
+  const showCartHandler=()=>{
+     setCartIsShown(true);
+  }
+
+  const hideCartHandler=()=>{
+    setCartIsShown(false);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   
+    //here, we are wrapping all components inside CartProvider as all components require card details
+    //Cart - Cart items
+    //Header - Badge showing number of items ordered
+    //Meal - We have Add functionality in Meal Compoent to add food items in cart
+
+   <CartProvider>
+    {cartIsShown && <Cart onCloseCart= {hideCartHandler} /> }
+      <Header onCartClick={showCartHandler}/>    
+      <main>
+            <Meals />
+      </main>
+   </CartProvider>
+     
   );
 }
 
